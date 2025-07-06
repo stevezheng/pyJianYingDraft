@@ -1,22 +1,26 @@
-# pyJianYingDraft
-### 轻量、灵活、易上手的Python剪映草稿生成及导出工具，构建全自动视频剪辑/混剪流水线！
+# pyJianYingDraft 2025 年 07 月 06 日
 
-> ℹ 欢迎为本项目补充6+版本草稿文件的解密方式
+### 轻量、灵活、易上手的 Python 剪映草稿生成及导出工具，构建全自动视频剪辑/混剪流水线！
 
-> 🧪 本项目仍在快速更新中，欢迎⭐️此项目保持关注！
+> ℹ 欢迎为本项目补充 6+版本草稿文件的解密方式
 
-> 📢 欢迎加入[Discord服务器](https://discord.gg/WfHgGQvhyW)进行用法或新功能的讨论
+> 🧪 本项目仍在快速更新中，欢迎 ⭐️ 此项目保持关注！
+
+> 📢 欢迎加入[Discord 服务器](https://discord.gg/WfHgGQvhyW)进行用法或新功能的讨论
 
 ## 使用思路
+
 ![使用思路](readme_assets/使用思路.jpg)
 
 # 功能清单
-> ℹ 如未额外注明，一般仅在5.9版本上测试过
 
-> 标注☑️的特性**已实现**，标注⬜的特性**待实现**
+> ℹ 如未额外注明，一般仅在 5.9 版本上测试过
+
+> 标注 ☑️ 的特性**已实现**，标注 ⬜ 的特性**待实现**
 
 ### 模板模式
-> ⚠️ 剪映6+版本对`draft_content.json`文件进行了加密，故**本系列功能目前仅支持剪映5.9及以下版本**
+
+> ⚠️ 剪映 6+版本对`draft_content.json`文件进行了加密，故**本系列功能目前仅支持剪映 5.9 及以下版本**
 
 - ☑️ [加载](#加载模板)（未加密的）`draft_content.json`文件作为模板
 - ☑️ [替换音视频片段的素材](#根据名称替换素材)
@@ -25,7 +29,8 @@
 - ☑️ [提取模板中出现的贴纸/气泡/花字等元信息](#提取素材元数据)
 
 ### 批量导出
-> ⚠️ 剪映7+版本隐藏了控件，故**本系列功能目前仅支持剪映6及以下版本**
+
+> ⚠️ 剪映 7+版本隐藏了控件，故**本系列功能目前仅支持剪映 6 及以下版本**
 
 - ☑️ 控制剪映打开指定草稿
 - ☑️ [导出草稿至指定位置](#批量导出草稿)
@@ -33,28 +38,39 @@
 - 感谢`@litter jump`提供部分思路
 
 ### 视频与图片
-> ℹ 以下草稿生成功能（音视频、贴纸、文本、特效等）支持剪映5及以上的所有版本
+
+> ℹ 以下草稿生成功能（音视频、贴纸、文本、特效等）支持剪映 5 及以上的所有版本
 
 - ☑️ 添加本地视频/图片素材，并[自定义片段的时间、持续时长或播放速度](#素材截取与整体变速)
 - ☑️ [视频整体调节](#视频整体调节)（旋转、缩放、亮度等）以及[关键帧生成](#关键帧)
 - ☑️ 视频片段的[入场/出场/组合动画](#添加片段动画)
 - ☑️ 添加[蒙版](#蒙版)、[片段特效](#添加片段特效)和[滤镜](#添加片段滤镜)
-- ☑️ （项目700⭐️回馈功能）视频背景填充[(示例代码)](demo.py)
+- ☑️ （项目 700⭐️ 回馈功能）视频背景填充[(示例代码)](demo.py)
+
 ### 贴纸
+
 - ☑️ 根据元信息[添加贴纸](#提取素材元数据)
 - ☑️ 贴纸的[关键帧](#关键帧)生成
+
 ### 音频
+
 - ☑️ 添加本地音频素材，并[自定义片段的时间、持续时长或播放速度](#素材截取与整体变速)
 - ☑️ 调整淡入淡出时长[(示例代码)](demo.py)，调整音量[(示例代码)](demo.py)及其[关键帧](#关键帧)
 - ☑️ 添加音频片段的[场景音效果](#添加片段特效)，并设置参数
+
 ### 轨道
+
 - ☑️ [添加轨道](#多轨道操作)以及[将片段添加到指定轨道](#多轨道操作)
 - ☑️ 自定义视频/滤镜/特效轨道的[层级关系](#多轨道操作)
+
 ### 特效、滤镜和转场
+
 - ☑️ 吸附于片段上的[特效](#添加片段特效)、[滤镜](#添加片段滤镜)和[动画](#添加片段动画)
 - ☑️ 位于[独立轨道的特效和滤镜](#独立轨道上的特效和滤镜)
 - ☑️ 添加转场[(示例代码)](demo.py)，并自定义其时长
+
 ### 文本及字幕
+
 - ☑️ [添加文本、设置字体及样式](#添加文本)、修改文本片段的[位置及旋转设置](#视频整体调节)
 - ☑️ 文本的[关键帧](#关键帧)以及[动画](#添加片段动画)
 - ☑️ 文字描边和文字背景
@@ -63,17 +79,21 @@
 - ☑️ [导入`.srt`文件](#导入字幕)生成字幕并批量设置格式
 
 # 安装
-pyJianYingDraft现已支持pip安装（不含demo），推荐使用开发时测试的Python版本3.8或3.11
+
+pyJianYingDraft 现已支持 pip 安装（不含 demo），推荐使用开发时测试的 Python 版本 3.8 或 3.11
+
 ```
 pip install pyJianYingDraft
 ```
 
-> ℹ 如遇安装后import失败, 可能与uiautomation的兼容性问题有关，参见[相关issue](https://github.com/GuanYixuan/pyJianYingDraft/issues/12)
+> ℹ 如遇安装后 import 失败, 可能与 uiautomation 的兼容性问题有关，参见[相关 issue](https://github.com/GuanYixuan/pyJianYingDraft/issues/12)
 
 # 快速上手
+
 例程`demo.py`将创建包含音视频素材和一行文本的剪映草稿文件，并且添加了音频淡入、视频入场动画、转场效果和文本气泡/花字。
 
 这个例程的操作方法如下：
+
 1. 在剪映里**创建一个空草稿**，找到它对应的**文件夹路径**（类似`.../JianyingPro Drafts/9月5日`）
 2. **返回剪映首页**或退出剪映
 3. 将代码中`DUMP_PATH`变量的值改为**草稿文件夹下的`draft_content.json`路径**，随后运行`demo.py`
@@ -88,20 +108,23 @@ pip install pyJianYingDraft
 > ℹ 文档部分推荐从[功能清单](#功能清单)一节中选取感兴趣的功能阅读，而非直接按顺序阅读
 
 ### 模板模式
+
 为了保留部分复杂特性（文本特效、复合片段...），可以加载一个已有的剪映草稿作为模板，然后将其中内容导入到另一的草稿中，或直接**替换其中部分片段的内容**。
 
 目前提供了**三种替换功能**：
+
 - [根据名称替换素材](#根据名称替换素材)：直接替换素材本身，自然影响所有引用该素材的片段
 - [根据片段替换素材](#根据片段替换素材)：替换某个特定片段的素材，同时重新选取其引用的素材范围
 - [替换文本片段的内容](#替换文本片段的内容)：保留所有文本格式，但替换其内容
 
 除此之外，对于某些没有特定名称的特性（贴纸、花字等），提供了[提取素材元数据](#提取素材元数据)的功能以提取其`resource_id`
 
-> ⚠️ 由于剪映6+版本对草稿文件进行了加密，故**暂不支持加载来自6+版本的草稿文件**作为模板
+> ⚠️ 由于剪映 6+版本对草稿文件进行了加密，故**暂不支持加载来自 6+版本的草稿文件**作为模板
 
 > ℹ 若出现模板内容丢失的情况，欢迎反馈
 
 #### 加载模板
+
 推荐使用`Draft_folder`来管理剪映的草稿文件夹（可以在剪映的`全局设置`-`草稿位置`中查询），这样能够方便地根据已有模板生成新草稿。
 
 ```python
@@ -115,7 +138,7 @@ script = draft_folder.duplicate_as_template("模板草稿", "新草稿")  # 复�
 script.save()  # 保存你的"新草稿"
 ```
 
-为了最大限度地兼容模板中的复杂特性，**导入的轨道与pyJianYingDraft创建的轨道是分离开的**，具体地讲：
+为了最大限度地兼容模板中的复杂特性，**导入的轨道与 pyJianYingDraft 创建的轨道是分离开的**，具体地讲：
 
 - 除下述替换功能外，不能在导入的轨道上添加片段、转场、淡入淡出、特效等
 - **仍然可以创建新的轨道，并在其上添加片段等**，就像非模板模式一样
@@ -123,6 +146,7 @@ script.save()  # 保存你的"新草稿"
 > ℹ 导入轨道的限制也许会在后续版本中逐渐取消
 
 #### 提取素材元数据
+
 对导入的`Script_file`对象，可以调用`inspect_material`方法提取部分素材的`resource_id`。
 `Draft_folder`也有相应的方法来提取指定草稿的素材元数据。
 
@@ -154,6 +178,7 @@ script.inspect_material()
 其中的元数据可用于添加相应素材（例如通过`Sticker_segment`的`resource_id`参数）
 
 #### 根据名称替换素材
+
 这种方法将替换素材本身，而不对片段进行直接修改。
 
 > ℹ 由于素材有名称（默认是本地文件的名称），这种替换方式的定位比较方便
@@ -161,19 +186,22 @@ script.inspect_material()
 > ℹ 由于不涉及时间范围的修改，这种替换方式**尤其适合图像素材**，且几乎不会产生兼容性的问题
 
 以[快速上手](#快速上手)中的草稿为例，假如我们希望换用新的音频素材，可以：
+
 ```python
 new_material = draft.Audio_material("<新的音频素材路径>")
 script.replace_material_by_name("audio.mp3", new_material)  # 替换名称为"audio.mp3"的素材
 ```
 
-替换新素材后，片段所截取的部分仍是素材前5秒，且音量、淡入淡出、播放速度等仍保持不变。
+替换新素材后，片段所截取的部分仍是素材前 5 秒，且音量、淡入淡出、播放速度等仍保持不变。
 
 #### 根据片段替换素材
+
 这种方法将替换某个**特定片段**的素材，同时可以**重新选取其引用的素材范围**并**根据新时长在时间轴上伸缩片段**。
 
 > ℹ 由于片段没有名称，故通常需要**依靠片段的下标来定位**
 
 此过程分为两步：**选取轨道**和**替换素材**，以上方音频素材的替换为例：
+
 ```python
 from pyJianYingDraft import trange, Shrink_mode, Extend_mode
 
@@ -195,6 +223,7 @@ script.replace_material_by_seg(
 从例子中可见，此替换方法可能会造成片段的时长变化，故可以利用`handle_shrink`和`handle_extend`参数指定片段在缩短和延长时的处理方式。
 
 > ℹ 不显式指定`handle_shrink`和`handle_extend`时，默认的处理方式如下：
+>
 > - 新素材比原素材短，则前移片段终止点，使得片段长度与新素材长度一致
 > - 新素材比原素材长，则裁剪素材范围，保持片段原长不变
 
@@ -203,11 +232,13 @@ script.replace_material_by_seg(
 > ℹ 目前已知替换带有组合出入场动画的片段不会自动刷新动画时间
 
 #### 替换文本片段的内容
+
 这种方法将替换某个**特定文本片段**的内容，但保留其所有格式。
 
 此过程同样分为**选取轨道**和**替换内容**两个步骤：其中“选取轨道”可参考[根据片段替换素材](#根据片段替换素材)中的示例。
 
 以下假定我们已经选取了合适的文本轨道`text_track`，则只需：
+
 ```python
 script.replace_text(
     text_track, 0,  # 选取text_track中下标为0的片段，也即第一个片段
@@ -221,9 +252,10 @@ script.replace_text(
 
 > ℹ **目前仅支持导入音视频/文本轨道**, 支持的范围将来会继续扩展
 
-> ⚠️ 本方法会保留各片段及其素材的id, 因而**不支持向同一草稿多次导入同一轨道**
+> ⚠️ 本方法会保留各片段及其素材的 id, 因而**不支持向同一草稿多次导入同一轨道**
 
 例如
+
 ```python
 source_script = draft_folder.load_template("<模板>")  # 加载模板草稿
 target_script = draft.Script_file(1920, 1080)      # 创建新草稿
@@ -245,19 +277,20 @@ target_script.import_track(
 ```
 
 ### 批量导出草稿
+
 作为整个自动化流程中的最后一步，本项目提供了基础的草稿批量导出功能。
 
-> ⚠️ 剪映7+版本对控件进行了隐藏，故本功能目前**仅支持剪映6及以下版本**
+> ⚠️ 剪映 7+版本对控件进行了隐藏，故本功能目前**仅支持剪映 6 及以下版本**
 
-> ⚠️ 本部分功能依赖于`uiautomation`库，故目前**仅支持在Windows系统下运行**
+> ⚠️ 本部分功能依赖于`uiautomation`库，故目前**仅支持在 Windows 系统下运行**
 
 > ℹ 导出程序会将剪映窗口置顶，且需要控制光标进行点击，**建议在闲时/夜间运行**
 
-> ℹ 本部分功能**在剪映专业版5.9和6.8中测试通过**
+> ℹ 本部分功能**在剪映专业版 5.9 和 6.8 中测试通过**
 
-> ℹ 有用户反映部分Python版本(如3.13)下`uiautomation`会出现依赖问题, 推荐使用3.8、3.10或3.11, [详见此处](https://github.com/GuanYixuan/pyJianYingDraft/issues/12)
+> ℹ 有用户反映部分 Python 版本(如 3.13)下`uiautomation`会出现依赖问题, 推荐使用 3.8、3.10 或 3.11, [详见此处](https://github.com/GuanYixuan/pyJianYingDraft/issues/12)
 
-> ⚠️ 请**确认有导出草稿的相关权限(不使用VIP功能或已开通VIP)**, 否则可能陷入死循环
+> ⚠️ 请**确认有导出草稿的相关权限(不使用 VIP 功能或已开通 VIP)**, 否则可能陷入死循环
 
 导出利用`Jianying_controller`类进行，具体用法如下：
 
@@ -278,6 +311,7 @@ ctrl.export_draft("要导出的草稿名称", "<导出路径>",
 ```
 
 重复上述单次导出操作即可实现批量导出，类似如下代码：
+
 ```python
 draft_names = ...
 export_folder = ...
@@ -288,7 +322,9 @@ for name in draft_names:
 ### 时间与轨道
 
 #### 时间格式
+
 **剪映（和本项目）内部均采用微秒为单位保存时间**，但这不便于输入，故我们增加了一种“字符串形式”的时间，大部分时间参数均同时支持这两种形式：
+
 - 微秒形式：用`int`表达，适于计算
 - 字符串形式：用`str`表达，如`"1.5s"`、`"1h3m12s"`等，易于输入
 
@@ -297,6 +333,7 @@ for name in draft_names:
 > ⚠️ 注意`trange`的第二个参数是**持续时长**，而不是结束时间
 
 例如：
+
 ```python
 import pyJianYingDraft as draft
 from pyJianYingDraft import SEC, tim, trange
@@ -313,10 +350,13 @@ assert seg.target_timerange.start + 2*SEC == seg.target_timerange.start + tim("2
 ```
 
 #### 素材截取与整体变速
+
 截取和变速均在`Segment`创建时设置完成，具体是通过`target_timerange`、`source_timerange`和`speed`参数来共同实现的。
+
 > ℹ 目前暂不支持设置曲线变速
 
 以下以`Video_segment`为例，`Audio_segment`的用法相同，此二者支持两种构造方式：
+
 1. **便捷构造**：直接传入素材路径字符串，自动构造素材实例
 2. **传统构造**：先创建素材实例，再传入片段构造函数。**若需要设置素材的图像裁剪属性请使用此方式**
 
@@ -370,7 +410,9 @@ script.dump("*你的草稿工程文件夹*/draft_content.json")
 ```
 
 #### 多轨道操作
+
 目前`Script_file.add_track`方法已支持创建多个同类型轨道，并支持自定义其顺序：
+
 ```python
 script.add_track(draft.Track_type.video,
                  track_name="前景",       # 轨道名
@@ -380,18 +422,22 @@ script.add_track(draft.Track_type.video,
                  relative_index=1)        # 由于1<2，所以前景轨道位于更上方
 ```
 
-> ℹ 对于相同index的轨道，默认**后创建的轨道位于上方**
+> ℹ 对于相同 index 的轨道，默认**后创建的轨道位于上方**
 
 一旦创建了多个同类轨道，则在添加片段时必须指定目标轨道，例如：
+
 ```python
 script.add_segment(video_segment, "背景")
 ```
 
 ### 视频整体调节
+
 每个视频片段都可以单独设置裁剪、旋转、翻转、缩放、透明度、亮度等属性，这些设置通过`Video_segment`构造函数中的`clip_settings`参数传入
+
 > ℹ 关键帧的优先级高于整体调节，故前者会覆盖后者的相应设置
 
-下方的例子将创建一个视频片段，并设置其不透明度为0.5、打开水平翻转：
+下方的例子将创建一个视频片段，并设置其不透明度为 0.5、打开水平翻转：
+
 ```python
 from pyJianYingDraft import Clip_settings
 video_segment = draft.Video_segment(video_material,
@@ -404,10 +450,13 @@ video_segment = draft.Video_segment(video_material,
 更具体的参数说明可参见`Clip_settings`的构造函数。
 
 ### 关键帧
+
 关键帧是吸附在**片段**上的“时刻-数值”对，所以创建关键帧只需要在`add_keyframe`方法中指定**相对片段头部的**时刻、数值以及控制的属性即可。
+
 > ℹ 目前不支持设置特效或滤镜参数的关键帧
 
 下方的例子尝试使用两个不透明度关键帧模拟视频的淡出效果：
+
 ```python
 import os
 import pyJianYingDraft as draft
@@ -438,13 +487,16 @@ script.dump("*你的草稿工程文件夹*/draft_content.json")
 文本和贴纸片段的关键帧也可以用相同方法进行设置，但注意它们只支持位置和大小相关的那些属性。
 
 对音频片段，目前只能设置音量的关键帧，此时你不需要指定`Keyframe_property`
+
 ```python
 audio_segment: draft.Audio_segment
 audio_segment.add_keyframe("0s", 0.6) # 片段开始时的音量为60%
 ```
 
 ### 蒙版
+
 蒙版的添加非常简单：调用`Video_segment`的`add_mask`方法即可：
+
 ```python
 from pyJianYingDraft import Mask_type
 
@@ -453,7 +505,9 @@ video_segment1.add_mask(Mask_type.线性, center_x=100, rotation=45)
 # 添加一个圆形蒙版，直径占素材的50%
 video_segment2.add_mask(Mask_type.圆形, size=0.5)
 ```
+
 其中：
+
 - `Mask_type`保存了剪映自带的蒙版类型
 - `center_x`和`center_y`参数表示蒙版中心点的坐标，与剪映中意义一致
 - `rotation`、`feather`、`round_corner`分别表示旋转、羽化、圆角参数，与剪映中意义一致
@@ -462,12 +516,16 @@ video_segment2.add_mask(Mask_type.圆形, size=0.5)
 更具体的参数说明请参见`add_mask`方法的注释。
 
 ### 特效、动画和滤镜
+
 #### 特效类型
+
 目前支持的**特效**类型由以下枚举类定义：
+
 - 音频：`Audio_scene_effect_type`（场景音）
 - 视频：`Video_scene_effect_type`（画面特效）、`Video_character_effect_type`（人物特效）
 
 目前支持的**动画**类型由以下枚举类定义：
+
 - 视频：`Intro_type`（入场）, `Outro_type`（出场）, `Group_animation_type`（组合动画）
 - 文本：`Text_intro`（入场）、`Text_outro`（出场）, `Text_loop_anim`（循环动画）
 
@@ -484,18 +542,22 @@ assert Video_scene_effect_type.from_name("__全息 扫描__") == Video_scene_eff
 ```
 
 #### 添加片段特效
+
 添加特效使用的方法是`segment.add_effect()`，它接受特效类型和一个参数数组，参数数组的顺序**与特效类型注释中的参数顺序一致**，但**不一定与剪映内的参数顺序一致**。
 
 下方的例子为视频片段添加一个`全息扫描`特效，并且指定其`氛围`参数为（剪映中的）100，其余参数默认：
+
 ```python
 from pyJianYingDraft import Video_scene_effect_type
 
 video_segment.add_effect(Video_scene_effect_type.全息扫描,
                          [None, None, 100.0]) # 不设置前两个参数, 第三个参数（氛围）为100，其余参数也不设置
 ```
+
 音频片段的特效添加方法与视频片段相似
 
 #### 添加片段滤镜
+
 滤镜的添加方法与特效类似，其使用的是`Video_segment.add_filter()`方法。
 与特效不同的是，滤镜只支持一个“滤镜强度”参数，且仅当所选滤镜能够调节强度时有效。
 
@@ -507,15 +569,18 @@ video_segment2.add_filter(Filter_type.冰雪世界, 50)  # 设置"冰雪世界"�
 ```
 
 #### 独立轨道上的特效和滤镜
+
 除了为视频片段添加特效和滤镜外，你还可以创建独立的特效轨道和滤镜轨道，并在其上添加特效和滤镜片段。
 
 首先使用`Script_file.add_track()`方法创建特效轨道或滤镜轨道。若需要指定顺序请参考[多轨道操作](#多轨道操作)
+
 ```python
 script.add_track(draft.Track_type.effect, "my_effect")  # 创建名为"my_effect"的特效轨道
 script.add_track(draft.Track_type.filter, "my_filter")  # 创建名为"my_filter"的滤镜轨道
 ```
 
 接下来便可使用`add_effect`和`add_filter`方法向这些轨道添加片段：
+
 ```python
 from pyJianYingDraft import Video_scene_effect_type, Filter_type, trange
 
@@ -531,11 +596,13 @@ script.add_filter(Filter_type.哈苏蓝, trange(0, script.duration),
 ```
 
 #### 添加片段动画
+
 添加动画使用的方法是`segment.add_animation()`，其仅接收一个动画类型作为参数，动画的持续时间由其默认值决定。若需要添加多个动画，可对同一个片段调用多次该方法。
 
 > ℹ 为**文本片段**同时设置循环动画和入出场动画时, 请**先添加出入场动画再添加循环动画**
 
 以下是为一个文本片段添加三种动画的例子：
+
 ```python
 from pyJianYingDraft import Text_intro, Text_outro, Text_loop_anim
 
@@ -544,11 +611,14 @@ text_seg.add_animation(Text_loop_anim.色差故障)  # 注意：循环动画必�
 ```
 
 ### 文本及字幕
+
 #### 添加文本
+
 添加文本与添加视频/音频片段类似，只需创建`Text_segment`对象并利用`add_segment`添加到`Script_file`中即可。
 其**字体**、**文字样式**及**图像调节**设置可分别通过`font`, `style`和`clip_settings`参数设置。
 
 例如：
+
 ```python
 import pyJianYingDraft as draft
 from pyJianYingDraft import Font_type, Text_style, Clip_settings
@@ -563,25 +633,28 @@ seg1 = draft.Text_segment("Subtitle", trange("0s", "10s"),
 更具体的参数说明可参见`Text_style`和`Clip_settings`的构造函数。
 
 #### 文本自动换行
+
 文本片段支持自动换行功能，可以通过`Text_style`的`auto_wrapping`和`max_line_width`参数来控制：
 
 ```python
 # 启用自动换行，设置最大行宽为屏幕宽度的70%
-seg2 = draft.Text_segment("这是一段很长的文本内容，当超过设定的最大行宽时会自动换行显示", 
+seg2 = draft.Text_segment("这是一段很长的文本内容，当超过设定的最大行宽时会自动换行显示",
                           trange("0s", "10s"),
                           font=Font_type.文轩体,
-                          style=Text_style(size=5.0, 
+                          style=Text_style(size=5.0,
                                           auto_wrapping=True,      # 启用自动换行
                                           max_line_width=0.7))     # 最大行宽占屏幕70%
 ```
 
 #### 导入字幕
-> ℹ 目前只支持导入**SRT格式**的字幕文件
+
+> ℹ 目前只支持导入**SRT 格式**的字幕文件
 
 导入字幕本质上是根据每条字幕的时间戳及内容创建一系列文本，并添加到轨道中。这一过程通过`Script_file.import_srt`来实现。
 导入的字幕默认启用自动换行功能。
 
 例如：
+
 ```python
 import pyJianYingDraft as draft
 
