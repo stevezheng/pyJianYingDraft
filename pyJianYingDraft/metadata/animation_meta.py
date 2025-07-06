@@ -1,5 +1,6 @@
 from .effect_meta import Effect_enum
 
+
 class Animation_meta:
     title: str
     is_vip: bool
@@ -20,6 +21,7 @@ class Animation_meta:
 
 class Intro_type(Effect_enum):
     """剪映自带的视频/图片入场动画类型"""
+    弹入        = Animation_meta("弹入", False, 0.500, "7426687310445546786", "", "a7019ce7a13e4fedbe75840c019a8ee8")
 
     # 免费入场动画
     缩小        = Animation_meta("缩小", False, 0.500, "6798332584276267527", "624755", "7e0e6b55704b7fc20588fee77058e95c")
