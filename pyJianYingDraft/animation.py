@@ -1,15 +1,19 @@
 """定义视频/文本动画相关类"""
 
 import uuid
+from typing import Any, Dict, List, Literal, Optional, Union
 
-from typing import Union, Optional
-from typing import Literal, Dict, List, Any
-
+from .metadata import (
+    Group_animation_type,
+    Intro_type,
+    Outro_type,
+    Text_intro,
+    Text_loop_anim,
+    Text_outro,
+)
+from .metadata.animation_meta import Animation_meta
 from .time_util import Timerange
 
-from .metadata.animation_meta import Animation_meta
-from .metadata import Intro_type, Outro_type, Group_animation_type
-from .metadata import Text_intro, Text_outro, Text_loop_anim
 
 class Animation:
     """一个视频/文本动画效果"""
@@ -138,3 +142,21 @@ class Segment_animations:
             "multi_language_current": "none",
             "animations": [animation.export_json() for animation in self.animations]
         }
+
+class Sticker_animation(Animation):
+    """一个视频动画效果"""
+
+    animation_type: Literal["in", "out", "group"]
+
+    def __init__(self, animation_type: Union[Intro_type, Outro_type, Text_loop_anim],
+                 start: int, duration: int):
+        super().__init__(animation_type.value, start, duration)
+
+        if isinstance(animation_type, Intro_type):
+            self.animation_type = "in"
+        elif isinstance(animation_type, Outro_type):
+            self.animation_type = "out"
+        elif isinstance(animation_type, Text_loop_anim):
+            self.animation_type = "loop"
+
+        self.is_video_animation = False

@@ -5,19 +5,26 @@
 
 import uuid
 from copy import deepcopy
+from typing import Any, Dict, List, Literal, Optional, Tuple, Union, overload
 
-from typing import Optional, Literal, Union, overload
-from typing import Dict, List, Tuple, Any
-
-from .time_util import tim, Timerange
-from .segment import Visual_segment, Clip_settings
+from .animation import Segment_animations, Sticker_animation, Video_animation
 from .local_materials import Video_material
-from .animation import Segment_animations, Video_animation
+from .metadata import (
+    Effect_meta,
+    Effect_param_instance,
+    Filter_type,
+    Group_animation_type,
+    Intro_type,
+    Mask_meta,
+    Mask_type,
+    Outro_type,
+    Transition_type,
+    Video_character_effect_type,
+    Video_scene_effect_type,
+)
+from .segment import Clip_settings, Media_segment, Visual_segment
+from .time_util import Timerange, tim
 
-from .metadata import Effect_meta, Effect_param_instance
-from .metadata import Mask_meta, Mask_type, Filter_type, Transition_type
-from .metadata import Intro_type, Outro_type, Group_animation_type
-from .metadata import Video_scene_effect_type, Video_character_effect_type
 
 class Mask:
     """蒙版对象"""
@@ -496,11 +503,20 @@ class Video_segment(Visual_segment):
         })
         return json_dict
 
-class Sticker_segment(Visual_segment):
+class Sticker_segment(Media_segment):
     """安放在轨道上的一个贴纸片段"""
 
     resource_id: str
     """贴纸资源id"""
+
+    clip_settings: Clip_settings
+    """图像调节设置, 其效果可被关键帧覆盖"""
+
+    uniform_scale: bool
+    """是否锁定XY轴缩放比例"""
+
+    # TODO: animations
+    animations_instance: Optional[Segment_animations]
 
     def __init__(self, resource_id: str, target_timerange: Timerange, *, clip_settings: Optional[Clip_settings] = None):
         """根据贴纸resource_id构建一个贴纸片段, 并指定其时间信息及图像调节设置
@@ -512,8 +528,36 @@ class Sticker_segment(Visual_segment):
             target_timerange (`Timerange`): 片段在轨道上的目标时间范围
             clip_settings (`Clip_settings`, optional): 图像调节设置, 默认不作任何变换
         """
-        super().__init__(uuid.uuid4().hex, None, target_timerange, 1.0, 1.0, clip_settings=clip_settings)
+        super().__init__(uuid.uuid4().hex, None, target_timerange, 1.0, 1.0)
+        self.clip_settings = clip_settings or Clip_settings()
+        self.uniform_scale = True
         self.resource_id = resource_id
+        self.animations_instance = None
+
+    def add_animation(self, animation_type: Union[Intro_type, Outro_type, Group_animation_type], duration=None) -> "Video_segment":
+        """将给定的入场/出场/组合动画添加到此片段的动画列表中, 动画的起止时间自动确定"""
+        if isinstance(animation_type, Intro_type):
+            start = 0
+            duration = animation_type.value.duration
+        elif isinstance(animation_type, Outro_type):
+            start = self.target_timerange.duration - animation_type.value.duration
+            duration = animation_type.value.duration
+        elif isinstance(animation_type, Group_animation_type):
+            start = 0
+            duration = self.target_timerange.duration
+        else:
+            raise TypeError("Invalid animation type %s" % type(animation_type))
+
+        if self.animations_instance is None:
+            self.animations_instance = Segment_animations()
+            self.extra_material_refs.append(self.animations_instance.animation_id)
+
+        if duration:
+            duration = duration * 1000 * 1000
+
+        self.animations_instance.add_animation(Sticker_animation(animation_type, start, duration))
+
+        return self
 
     def export_material(self) -> Dict[str, Any]:
         """创建极简的贴纸素材对象, 以此不再单独定义贴纸素材类"""
@@ -524,3 +568,11 @@ class Sticker_segment(Visual_segment):
             "source_platform": 1,
             "type": "sticker",
         }
+
+    def export_json(self) -> Dict[str, Any]:
+        json_dict = super().export_json()
+        json_dict.update({
+            "clip": self.clip_settings.export_json(),
+            "uniform_scale": {"on": self.uniform_scale, "value": 1.0},
+        })
+        return json_dict
