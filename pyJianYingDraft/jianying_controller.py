@@ -2,7 +2,12 @@
 
 import time
 import shutil
-import uiautomation as uia
+import sys
+
+if sys.platform == "win32":
+    import uiautomation as uia
+else:
+    uia = None  # 占位，防止类型检查报错
 
 from enum import Enum
 from typing import Optional, Literal, Callable
@@ -31,10 +36,10 @@ class ControlFinder:
     """控件查找器，封装部分与控件查找相关的逻辑"""
 
     @staticmethod
-    def desc_matcher(target_desc: str, depth: int = 2, exact: bool = False) -> Callable[[uia.Control, int], bool]:
+    def desc_matcher(target_desc: str, depth: int = 2, exact: bool = False):
         """根据full_description查找控件的匹配器"""
         target_desc = target_desc.lower()
-        def matcher(control: uia.Control, _depth: int) -> bool:
+        def matcher(control, _depth: int) -> bool:
             if _depth != depth:
                 return False
             full_desc: str = control.GetPropertyValue(30159).lower()
@@ -42,10 +47,10 @@ class ControlFinder:
         return matcher
 
     @staticmethod
-    def class_name_matcher(class_name: str, depth: int = 1, exact: bool = False) -> Callable[[uia.Control, int], bool]:
+    def class_name_matcher(class_name: str, depth: int = 1, exact: bool = False):
         """根据ClassName查找控件的匹配器"""
         class_name = class_name.lower()
-        def matcher(control: uia.Control, _depth: int) -> bool:
+        def matcher(control, _depth: int) -> bool:
             if _depth != depth:
                 return False
             curr_class_name: str = control.ClassName.lower()
@@ -55,7 +60,7 @@ class ControlFinder:
 class Jianying_controller:
     """剪映控制器"""
 
-    app: uia.WindowControl
+    app = None  # 剪映窗口
     """剪映窗口"""
     app_status: Literal["home", "edit", "pre_export"]
 
@@ -218,7 +223,7 @@ class Jianying_controller:
         self.app.SetActive()
         self.app.SetTopmost()
 
-    def __jianying_window_cmp(self, control: uia.WindowControl, depth: int) -> bool:
+    def __jianying_window_cmp(self, control, depth: int) -> bool:
         if control.Name != "剪映专业版":
             return False
         if "HomePage".lower() in control.ClassName.lower():
