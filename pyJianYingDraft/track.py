@@ -1,19 +1,18 @@
 """轨道类及其元数据"""
 
 import uuid
-
-from enum import Enum
-from typing import TypeVar, Generic, Type
-from typing import Dict, List, Any, Union
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from enum import Enum
+from typing import Any, Dict, Generic, List, Type, TypeVar, Union
 
+from .audio_segment import Audio_segment
+from .effect_segment import Effect_segment, Filter_segment
 from .exceptions import SegmentOverlap
 from .segment import Base_segment
-from .video_segment import Video_segment, Sticker_segment
-from .audio_segment import Audio_segment
 from .text_segment import Text_segment
-from .effect_segment import Effect_segment, Filter_segment
+from .video_segment import Sticker_segment, Video_segment
+
 
 @dataclass
 class Track_meta:
@@ -113,10 +112,10 @@ class Track(Base_track, Generic[Seg_type]):
             raise TypeError("New segment (%s) is not of the same type as the track (%s)" % (type(segment), self.accept_segment_type))
 
         # 检查片段是否重叠
-        for seg in self.segments:
-            if seg.overlaps(segment):
-                raise SegmentOverlap("New segment overlaps with existing segment [start: {}, end: {}]"
-                                     .format(segment.target_timerange.start, segment.target_timerange.end))
+        # for seg in self.segments:
+        #     if seg.overlaps(segment):
+        #         raise SegmentOverlap("New segment overlaps with existing segment [start: {}, end: {}]"
+        #                              .format(segment.target_timerange.start, segment.target_timerange.end))
 
         self.segments.append(segment)
         return self
